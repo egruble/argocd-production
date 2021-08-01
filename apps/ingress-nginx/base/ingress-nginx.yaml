@@ -1,0 +1,29 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ingress-nginx
+  namespace: ingress-nginx
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: production
+  source:
+    path: charts/ingress-nginx
+    repoURL: https://github.com/kubernetes/ingress-nginx.git
+    targetRevision: controller-v0.48.1
+    helm:
+      values: |
+        controller:
+          hostNetwork: true
+        defaultBackend:
+          enabled: true
+      version: v3
+  destination:
+    namespace: ingress-nginx
+    server: https://kubernetes.default.svc
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true
+    syncOptions:
+      - CreateNamespace=true

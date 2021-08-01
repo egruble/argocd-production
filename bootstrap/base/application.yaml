@@ -10,7 +10,7 @@ spec:
   source:
     repoURL: https://github.com/egruble/argocd-production.git
     targetRevision: HEAD
-    path: kustomize
+    path: apps
   destination:
     server: https://kubernetes.default.svc
     namespace: production
